@@ -3,7 +3,7 @@ import json
 
 def validate_file():
   try:
-    with open(r"IceCube\IceCube_Implmnt\sbt\outputs\bitmap\GoBoard_bitmap.bin") as f:
+    with open("IceCube/IceCube_Implmnt/sbt/outputs/bitmap/GoBoard_bitmap.bin") as f:
       pass
   except FileNotFoundError:
     raise Exception("Could not find GoBoard module in IceCube output.")
