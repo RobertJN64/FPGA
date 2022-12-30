@@ -11,10 +11,10 @@
 // This module is designed for 640x480 with a 25 MHz input clock.
 
 module VGA_Sync_Porch #(parameter VIDEO_WIDTH = 3,  // remember to 
-                        parameter TOTAL_COLS  = 3,  // overwrite
-                        parameter TOTAL_ROWS  = 3,  // these defaults
-                        parameter ACTIVE_COLS = 2,
-                        parameter ACTIVE_ROWS = 2)
+                        parameter TOTAL_COLS  = 800,  // overwrite
+                        parameter TOTAL_ROWS  = 525,  // these defaults
+                        parameter ACTIVE_COLS = 640,
+                        parameter ACTIVE_ROWS = 480)
   (input i_Clk,
    input [VIDEO_WIDTH-1:0] i_Red_Video,
    input [VIDEO_WIDTH-1:0] i_Grn_Video,

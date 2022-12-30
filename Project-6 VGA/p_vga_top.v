@@ -29,10 +29,7 @@ module GoBoard
   wire [9:0] w_Row_Count;
   
   // Generates Sync Pulses to run VGA
-  VGA_Sync_Pulses #(.TOTAL_COLS(c_TOTAL_COLS),
-                    .TOTAL_ROWS(c_TOTAL_ROWS),
-                    .ACTIVE_COLS(c_ACTIVE_COLS),
-                    .ACTIVE_ROWS(c_ACTIVE_ROWS)) VGA_Sync_Pulses_Inst 
+  VGA_Counter VGA_Counter_Inst 
   (.i_Clk(i_Clk),
    .o_Col_Count(w_Col_Count),
    .o_Row_Count(w_Row_Count)
@@ -42,12 +39,7 @@ module GoBoard
   assign w_Grn_Video_TP = (w_Col_Count < c_ACTIVE_COLS/2 && w_Row_Count < c_ACTIVE_ROWS) ? {c_VIDEO_WIDTH{1'b1}} : 0;;
   assign w_Blu_Video_TP = 0;
      
-  VGA_Sync_Porch  #(.VIDEO_WIDTH(c_VIDEO_WIDTH),
-                    .TOTAL_COLS(c_TOTAL_COLS),
-                    .TOTAL_ROWS(c_TOTAL_ROWS),
-                    .ACTIVE_COLS(c_ACTIVE_COLS),
-                    .ACTIVE_ROWS(c_ACTIVE_ROWS))
-  VGA_Sync_Porch_Inst
+  VGA_Sync_Porch VGA_Sync_Porch_Inst
    (.i_Clk(i_Clk),
     .i_Red_Video(w_Red_Video_TP),
     .i_Grn_Video(w_Grn_Video_TP),
