@@ -34,8 +34,6 @@ module GoBoard
                     .ACTIVE_COLS(c_ACTIVE_COLS),
                     .ACTIVE_ROWS(c_ACTIVE_ROWS)) VGA_Sync_Pulses_Inst 
   (.i_Clk(i_Clk),
-   .o_HSync(w_HSync_Start),
-   .o_VSync(w_VSync_Start),
    .o_Col_Count(w_Col_Count),
    .o_Row_Count(w_Row_Count)
   );
