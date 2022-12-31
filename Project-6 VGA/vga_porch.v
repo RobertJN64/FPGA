@@ -16,8 +16,8 @@ module VGA_Sync_Porch #(parameter VIDEO_WIDTH = 3,  // remember to
                         parameter ACTIVE_COLS = 640,
                         parameter ACTIVE_ROWS = 480)
   (input i_Clk,
-   input i_Col_Count,
-   input i_Row_Count,
+   input [9:0] i_Col_Count,
+   input [9:0] i_Row_Count,
    input [VIDEO_WIDTH-1:0] i_Red_Video,
    input [VIDEO_WIDTH-1:0] i_Grn_Video,
    input [VIDEO_WIDTH-1:0] i_Blu_Video,
@@ -33,12 +33,6 @@ module VGA_Sync_Porch #(parameter VIDEO_WIDTH = 3,  // remember to
   parameter c_FRONT_PORCH_VERT = 10;
   parameter c_BACK_PORCH_VERT  = 33;
 
-  wire w_HSync;
-  wire w_VSync;
-  
-  wire [9:0] w_Col_Count;
-  wire [9:0] w_Row_Count;
-  
   reg [VIDEO_WIDTH-1:0] r_Red_Video = 0;
   reg [VIDEO_WIDTH-1:0] r_Grn_Video = 0;
   reg [VIDEO_WIDTH-1:0] r_Blu_Video = 0;
