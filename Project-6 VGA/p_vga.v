@@ -20,9 +20,12 @@ module GoBoard
   parameter ACTIVE_ROWS = 480;
  
   // Common VGA Signals
-  wire [COLOR_BITS-1:0] w_Red_Video_Buf, w_Red_Video_Out;
-  wire [COLOR_BITS-1:0] w_Grn_Video_Buf, w_Grn_Video_Out;
-  wire [COLOR_BITS-1:0] w_Blu_Video_Buf, w_Blu_Video_Out;
+  reg [COLOR_BITS-1:0] w_Red_Video_Buf;
+  wire [COLOR_BITS-1:0] w_Red_Video_Out;
+  reg [COLOR_BITS-1:0] w_Grn_Video_Buf;
+  wire [COLOR_BITS-1:0] w_Grn_Video_Out;
+  reg [COLOR_BITS-1:0] w_Blu_Video_Buf;
+  wire [COLOR_BITS-1:0] w_Blu_Video_Out;
   wire [9:0] w_Col_Count;
   wire [9:0] w_Row_Count;
   
@@ -33,12 +36,25 @@ module GoBoard
    .o_Row_Count(w_Row_Count)
   );
 
+  parameter X = 50;
+  parameter Y = 50;
+  parameter W = 20;
+  parameter H = 100;
 
-  //PATTERN CREATION 
-  assign w_Red_Video_Buf = (w_Col_Count < 2 || w_Row_Count < 2 || w_Col_Count >= ACTIVE_COLS - 2 || w_Row_Count > ACTIVE_ROWS - 2) ? {COLOR_BITS{1'b1}} : 0;
-  assign w_Grn_Video_Buf = w_Red_Video_Buf;
-  assign w_Blu_Video_Buf = w_Grn_Video_Buf;
-     
+  always @(posedge i_Clk)
+  begin
+    //PATTERN CREATION
+    if (X < w_Col_Count && w_Col_Count < X + W && Y < w_Row_Count && w_Row_Count < Y + H) begin
+      w_Red_Video_Buf = {COLOR_BITS{1'b1}};
+      w_Grn_Video_Buf = w_Red_Video_Buf;
+      w_Blu_Video_Buf = w_Red_Video_Buf;
+    end else begin
+      w_Red_Video_Buf = 0;
+      w_Grn_Video_Buf = w_Red_Video_Buf;
+      w_Blu_Video_Buf = w_Red_Video_Buf;
+    end
+  end
+  
   VGA_Sync VGA_Sync_Porch
    (.i_Clk(i_Clk),
     .i_Col_Count(w_Col_Count),
