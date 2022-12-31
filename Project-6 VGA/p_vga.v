@@ -1,6 +1,12 @@
 module GoBoard
   (input  i_Clk,       // Main Clock
-   
+   input i_Switch_1,
+
+   output o_LED_1,
+   output o_LED_2,
+   output o_LED_3,
+   output o_LED_4,
+
    // VGA
    output o_VGA_HSync,
    output o_VGA_VSync,
@@ -46,8 +52,13 @@ module GoBoard
     //PATTERN CREATION
     if (X < w_Col_Count && w_Col_Count < X + W && Y < w_Row_Count && w_Row_Count < Y + H) begin
       w_Red_Video_Buf = {COLOR_BITS{1'b1}};
-      w_Grn_Video_Buf = w_Red_Video_Buf;
-      w_Blu_Video_Buf = w_Red_Video_Buf;
+      if (i_Switch_1) begin
+        w_Grn_Video_Buf = 0;
+        w_Blu_Video_Buf = 0;
+      end else begin
+        w_Grn_Video_Buf = w_Red_Video_Buf;
+        w_Blu_Video_Buf = w_Red_Video_Buf;
+      end
     end else begin
       w_Red_Video_Buf = 0;
       w_Grn_Video_Buf = w_Red_Video_Buf;
@@ -79,5 +90,10 @@ module GoBoard
   assign o_VGA_Blu_0 = w_Blu_Video_Out[0];
   assign o_VGA_Blu_1 = w_Blu_Video_Out[1];
   assign o_VGA_Blu_2 = w_Blu_Video_Out[2];
+
+  assign o_LED_1 = 0;
+  assign o_LED_2 = 0;
+  assign o_LED_3 = 0;
+  assign o_LED_4 = 0;
    
 endmodule
