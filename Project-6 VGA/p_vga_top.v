@@ -15,16 +15,14 @@ module GoBoard
    output o_VGA_Blu_2);
     
   // VGA Constants to set Frame Size
-  parameter c_VIDEO_WIDTH = 3;
-  parameter c_TOTAL_COLS  = 800;
-  parameter c_TOTAL_ROWS  = 525;
-  parameter c_ACTIVE_COLS = 640;
-  parameter c_ACTIVE_ROWS = 480;
+  parameter COLOR_BITS = 3;
+  parameter ACTIVE_COLS = 640;
+  parameter ACTIVE_ROWS = 480;
  
   // Common VGA Signals
-  wire [c_VIDEO_WIDTH-1:0] w_Red_Video_TP, w_Red_Video_Porch;
-  wire [c_VIDEO_WIDTH-1:0] w_Grn_Video_TP, w_Grn_Video_Porch;
-  wire [c_VIDEO_WIDTH-1:0] w_Blu_Video_TP, w_Blu_Video_Porch;
+  wire [COLOR_BITS-1:0] w_Red_Video_TP, w_Red_Video_Porch;
+  wire [COLOR_BITS-1:0] w_Grn_Video_TP, w_Grn_Video_Porch;
+  wire [COLOR_BITS-1:0] w_Blu_Video_TP, w_Blu_Video_Porch;
   wire [9:0] w_Col_Count;
   wire [9:0] w_Row_Count;
   
@@ -35,11 +33,11 @@ module GoBoard
    .o_Row_Count(w_Row_Count)
   );
    
-  assign w_Red_Video_TP = (w_Col_Count < c_ACTIVE_COLS && w_Row_Count < c_ACTIVE_ROWS) ? {c_VIDEO_WIDTH{1'b1}} : 0;
-  assign w_Grn_Video_TP = (w_Col_Count < c_ACTIVE_COLS/2 && w_Row_Count < c_ACTIVE_ROWS) ? {c_VIDEO_WIDTH{1'b1}} : 0;
-  assign w_Blu_Video_TP = (w_Col_Count < c_ACTIVE_COLS && w_Row_Count < c_ACTIVE_ROWS/2) ? {c_VIDEO_WIDTH{1'b1}} : 0;
+  assign w_Red_Video_TP = (w_Col_Count < ACTIVE_COLS && w_Row_Count < ACTIVE_ROWS) ? {COLOR_BITS{1'b1}} : 0;
+  assign w_Grn_Video_TP = (w_Col_Count < ACTIVE_COLS/2 && w_Row_Count < ACTIVE_ROWS) ? {COLOR_BITS{1'b1}} : 0;
+  assign w_Blu_Video_TP = (w_Col_Count < ACTIVE_COLS && w_Row_Count < ACTIVE_ROWS/2) ? {COLOR_BITS{1'b1}} : 0;
      
-  VGA_Sync_Porch VGA_Sync_Porch_Inst
+  VGA_Sync VGA_Sync_Porch
    (.i_Clk(i_Clk),
     .i_Col_Count(w_Col_Count),
     .i_Row_Count(w_Row_Count),

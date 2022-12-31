@@ -1,15 +1,14 @@
-// This module is designed for 640x480 with a 25 MHz input clock.
+// Manages Col_Count and Row_Count
 
 module VGA_Counter
- #(parameter TOTAL_COLS  = 800, 
-   parameter TOTAL_ROWS  = 525,
-   parameter ACTIVE_COLS = 640, 
-   parameter ACTIVE_ROWS = 480)
   (input            i_Clk, 
    output reg [9:0] o_Col_Count = 0, 
    output reg [9:0] o_Row_Count = 0
   );  
-  
+
+  parameter TOTAL_COLS  = 800;
+  parameter TOTAL_ROWS  = 525;
+   
   always @(posedge i_Clk)
   begin
     if (o_Col_Count == TOTAL_COLS-1)
@@ -22,6 +21,5 @@ module VGA_Counter
     end
     else
       o_Col_Count <= o_Col_Count + 1;
-      
   end
 endmodule
