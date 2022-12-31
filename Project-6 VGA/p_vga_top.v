@@ -36,22 +36,19 @@ module GoBoard
   );
    
   assign w_Red_Video_TP = (w_Col_Count < c_ACTIVE_COLS && w_Row_Count < c_ACTIVE_ROWS) ? {c_VIDEO_WIDTH{1'b1}} : 0;
-  assign w_Grn_Video_TP = (w_Col_Count < c_ACTIVE_COLS/2 && w_Row_Count < c_ACTIVE_ROWS) ? {c_VIDEO_WIDTH{1'b1}} : 0;;
-  assign w_Blu_Video_TP = 0;
+  assign w_Grn_Video_TP = (w_Col_Count < c_ACTIVE_COLS/2 && w_Row_Count < c_ACTIVE_ROWS) ? {c_VIDEO_WIDTH{1'b1}} : 0;
+  assign w_Blu_Video_TP = (w_Col_Count < c_ACTIVE_COLS && w_Row_Count < c_ACTIVE_ROWS/2) ? {c_VIDEO_WIDTH{1'b1}} : 0;
      
   VGA_Sync_Porch VGA_Sync_Porch_Inst
    (.i_Clk(i_Clk),
     .i_Red_Video(w_Red_Video_TP),
     .i_Grn_Video(w_Grn_Video_TP),
     .i_Blu_Video(w_Blu_Video_TP),
-    .o_HSync(w_HSync_Porch),
-    .o_VSync(w_VSync_Porch),
+    .o_HSync(o_VGA_HSync),
+    .o_VSync(o_VGA_VSync),
     .o_Red_Video(w_Red_Video_Porch),
     .o_Grn_Video(w_Grn_Video_Porch),
     .o_Blu_Video(w_Blu_Video_Porch));
-       
-  assign o_VGA_HSync = w_HSync_Porch;
-  assign o_VGA_VSync = w_VSync_Porch;
        
   assign o_VGA_Red_0 = w_Red_Video_Porch[0];
   assign o_VGA_Red_1 = w_Red_Video_Porch[1];
