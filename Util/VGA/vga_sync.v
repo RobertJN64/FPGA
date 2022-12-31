@@ -22,32 +22,22 @@ module VGA_Sync
   parameter ACTIVE_COLS = 640;
   parameter ACTIVE_ROWS = 480;
 
-  parameter c_FRONT_PORCH_HORZ = 18;
-  parameter c_BACK_PORCH_HORZ  = 50;
-  parameter c_FRONT_PORCH_VERT = 10;
-  parameter c_BACK_PORCH_VERT  = 33;
+  parameter FRONT_PORCH_HORZ = 18;
+  parameter BACK_PORCH_HORZ  = 50;
+  parameter FRONT_PORCH_VERT = 10;
+  parameter BACK_PORCH_VERT  = 33;
 
   reg [COLOR_BITS-1:0] r_Red_Video = 0;
   reg [COLOR_BITS-1:0] r_Grn_Video = 0;
   reg [COLOR_BITS-1:0] r_Blu_Video = 0;
     
-  // Purpose: Modifies the HSync and VSync signals to include Front/Back Porch
+  // Purpose: Generates HSync and VSync signals with Front/Back Porch
   always @(posedge i_Clk)
   begin
-    if ((i_Col_Count < c_FRONT_PORCH_HORZ + ACTIVE_COLS) || 
-        (i_Col_Count > TOTAL_COLS - c_BACK_PORCH_HORZ - 1))
-      o_HSync <= 1'b1;
-    else
-      o_HSync <= 1'b0;
-    
-    if ((i_Row_Count < c_FRONT_PORCH_VERT + ACTIVE_ROWS) ||
-        (i_Row_Count > TOTAL_ROWS - c_BACK_PORCH_VERT - 1))
-      o_VSync <= 1'b1;
-    else
-      o_VSync <= 1'b0;
+    o_HSync <= ((i_Col_Count < FRONT_PORCH_HORZ + ACTIVE_COLS) || (i_Col_Count > TOTAL_COLS - BACK_PORCH_HORZ - 1));
+    o_VSync <= ((i_Row_Count < FRONT_PORCH_VERT + ACTIVE_ROWS) || (i_Row_Count > TOTAL_ROWS - BACK_PORCH_VERT - 1));
   end
 
-  
   // Purpose: Align input video to modified Sync pulses.
   // Adds in 2 Clock Cycles of Delay
   always @(posedge i_Clk)
