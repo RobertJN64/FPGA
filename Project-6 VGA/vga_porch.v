@@ -16,6 +16,8 @@ module VGA_Sync_Porch #(parameter VIDEO_WIDTH = 3,  // remember to
                         parameter ACTIVE_COLS = 640,
                         parameter ACTIVE_ROWS = 480)
   (input i_Clk,
+   input i_Col_Count,
+   input i_Row_Count,
    input [VIDEO_WIDTH-1:0] i_Red_Video,
    input [VIDEO_WIDTH-1:0] i_Grn_Video,
    input [VIDEO_WIDTH-1:0] i_Blu_Video,
@@ -40,29 +42,18 @@ module VGA_Sync_Porch #(parameter VIDEO_WIDTH = 3,  // remember to
   reg [VIDEO_WIDTH-1:0] r_Red_Video = 0;
   reg [VIDEO_WIDTH-1:0] r_Grn_Video = 0;
   reg [VIDEO_WIDTH-1:0] r_Blu_Video = 0;
-  
-  Sync_To_Count #(.TOTAL_COLS(TOTAL_COLS),
-                  .TOTAL_ROWS(TOTAL_ROWS)) UUT 
-  (.i_Clk      (i_Clk),
-   .i_HSync    (i_HSync),
-   .i_VSync    (i_VSync),
-   .o_HSync    (w_HSync),
-   .o_VSync    (w_VSync),
-   .o_Col_Count(w_Col_Count),
-   .o_Row_Count(w_Row_Count)
-  );
-	  
+    
   // Purpose: Modifies the HSync and VSync signals to include Front/Back Porch
   always @(posedge i_Clk)
   begin
-    if ((w_Col_Count < c_FRONT_PORCH_HORZ + ACTIVE_COLS) || 
-        (w_Col_Count > TOTAL_COLS - c_BACK_PORCH_HORZ - 1))
+    if ((i_Col_Count < c_FRONT_PORCH_HORZ + ACTIVE_COLS) || 
+        (i_Col_Count > TOTAL_COLS - c_BACK_PORCH_HORZ - 1))
       o_HSync <= 1'b1;
     else
       o_HSync <= 1'b0;
     
-    if ((w_Row_Count < c_FRONT_PORCH_VERT + ACTIVE_ROWS) ||
-        (w_Row_Count > TOTAL_ROWS - c_BACK_PORCH_VERT - 1))
+    if ((i_Row_Count < c_FRONT_PORCH_VERT + ACTIVE_ROWS) ||
+        (i_Row_Count > TOTAL_ROWS - c_BACK_PORCH_VERT - 1))
       o_VSync <= 1'b1;
     else
       o_VSync <= 1'b0;

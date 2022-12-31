@@ -41,6 +41,8 @@ module GoBoard
      
   VGA_Sync_Porch VGA_Sync_Porch_Inst
    (.i_Clk(i_Clk),
+    .i_Col_Count(w_Col_Count),
+    .i_Row_Count(w_Row_Count),
     .i_Red_Video(w_Red_Video_TP),
     .i_Grn_Video(w_Grn_Video_TP),
     .i_Blu_Video(w_Blu_Video_TP),
