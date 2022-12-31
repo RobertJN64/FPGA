@@ -42,13 +42,15 @@ module VGA_Sync
   // Adds in 2 Clock Cycles of Delay
   always @(posedge i_Clk)
   begin
-    r_Red_Video <= i_Red_Video;
-    r_Grn_Video <= i_Grn_Video;
-    r_Blu_Video <= i_Blu_Video;
-
-    o_Red_Video <= r_Red_Video;
-    o_Grn_Video <= r_Grn_Video;
-    o_Blu_Video <= r_Blu_Video;
+    if (i_Col_Count >= ACTIVE_COLS || i_Row_Count >= ACTIVE_ROWS) begin
+      o_Red_Video <= 0;
+      o_Grn_Video <= 0;
+      o_Blu_Video <= 0;
+    end else begin
+      o_Red_Video <= i_Red_Video;
+      o_Grn_Video <= i_Grn_Video;
+      o_Blu_Video <= i_Blu_Video;
+    end
   end
   
 endmodule
